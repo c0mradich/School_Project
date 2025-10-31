@@ -1,0 +1,19 @@
+node_modules/
+__pycache__/
+.next/
+
+# OS и IDE
+.DS_Store
+Thumbs.db
+.vscode/
+*.log
+
+# Python
+*.pyc
+*.pyo
+
+# Node
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*

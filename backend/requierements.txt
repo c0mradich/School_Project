@@ -1,0 +1,6 @@
+fastapi
+sqlmodel
+pydantic
+typing
+passlib
+bcrypt==4.1.2
