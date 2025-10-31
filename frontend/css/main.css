@@ -135,6 +135,10 @@ input[type="file"] {
   transition: .2s ease-in-out;
 }
 
+.inputFileContainer span::selection{
+  cursor: pointer;
+}
+
 .inputFileContainer label:hover {
   background: #e76f3c;
   transform: translateY(-2px);

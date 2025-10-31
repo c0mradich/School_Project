@@ -12,9 +12,12 @@ export default function SignUp() {
   const [password, setPassword] = useState('');
   const rpassword = useRef<HTMLInputElement | null>(null);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const { setUser } = useUser();
-   const router = useRouter();
+  const { setUser, user } = useUser();
+  const router = useRouter();
 
+  if (user!==null){
+    router.push("/dashboard")
+  }
 
   const validate = () => {
     const newErrors: { [key: string]: string } = {};

@@ -1,5 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useUser } from '../context/UserContext';
 import Link from 'next/link';
 import '../../css/styles.css';
 
@@ -15,6 +17,13 @@ function SignIn() {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const {setUser, user} = useUser()
+  const router = useRouter()
+  useEffect(() => {
+    if (user) {
+      router.push("/dashboard");
+    }
+  }, [user]);
 
 
   const validate = () => {
@@ -55,14 +64,14 @@ function SignIn() {
     }
 
     const result = await handleLogin({ name, password });
-
-    if (result.success) {
-      document.cookie = `username=${encodeURIComponent(name)}; path=/; max-age=3600`;
-      alert('✅ ' + result.message);
-      window.location.href = '/';
-    } else {
-      alert('⚠️ ' + result.message);
+    if (result.detail){
+      setErrors({password: result.detail})
+      return
     }
+    if(result.id && result.name){
+      setUser({id: result.id, name: result.name})
+    }
+    console.log("RESULT: ", result)
   };
 
   return (

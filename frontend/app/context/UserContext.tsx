@@ -1,4 +1,4 @@
-'use client'; // <--- обязательно для Client Component
+'use client';
 
 import { createContext, useContext, useState, ReactNode } from "react";
 

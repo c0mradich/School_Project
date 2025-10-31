@@ -44,14 +44,12 @@ def add_user(user: User):
 
         hashed = pwd_context.hash(user.password)
         db_user = Users(name=user.name, password=hashed)
-        print("DB_USER", db_user)
         
         session.add(db_user)
         session.commit()
         session.refresh(db_user)
 
         return {"id": db_user.id, "name": db_user.name}
-
 
 @app.post("/login")
 def login(user: User, response: Response):
@@ -63,3 +61,37 @@ def login(user: User, response: Response):
             raise HTTPException(status_code=401, detail="Неверный логин или пароль")
 
         return {"id": existing.id, "name": existing.name}
+    
+@app.post("/")
+def Home(room: Room):
+    with Session(engine) as session: 
+        stmt = select(Rooms).where(Rooms.name == room.name)
+        existing = session.exec(stmt).first()
+        if existing:
+            raise HTTPException(status_code=400, detail="Комната уже существует")
+        db_room = Rooms(name=room.name, tables=room.tables, chairs=room.chairs, photo=room.filename)
+        session.add(db_room)
+        session.commit()
+        session.refresh(db_room)
+
+        return {"id": db_room.id, "name": db_room.name}
+        
+@app.get("/dashboard")
+def Dashboard(user: LoginedUser):
+    with Session(engine) as session:
+        stmt_user = select(Users).where(
+            Users.id == user.id,
+            Users.name == user.name
+        )
+        existing = session.exec(stmt_user).first()
+        if not existing:
+            raise HTTPException(status_code=400, detail="Данного пользователя не существует")
+
+        # fetch all rooms
+        stmt_rooms = select(Rooms)
+        rooms = session.exec(stmt_rooms).all()
+
+        return {
+            "user": existing,
+            "rooms": rooms
+        }
