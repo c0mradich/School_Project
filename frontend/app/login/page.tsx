@@ -70,6 +70,8 @@ function SignIn() {
     }
     if(result.id && result.name){
       setUser({id: result.id, name: result.name})
+      sessionStorage.setItem("user_id",result.id)
+      sessionStorage.setItem("user_name", result.name)
     }
     console.log("RESULT: ", result)
   };

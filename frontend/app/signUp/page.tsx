@@ -62,6 +62,8 @@ export default function SignUp() {
       } else {
         // Сохраняем пользователя в context/state
         setUser({ id: data.id, name: data.name });
+        sessionStorage.setItem("user_id", data.id)
+        sessionStorage.setItem("user_name", data.name)
 
         // Очистка полей
         setName('');

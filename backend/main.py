@@ -1,4 +1,6 @@
-from fastapi import FastAPI, Request, Response, Depends, HTTPException
+from fastapi import FastAPI, Request, Response, Depends, HTTPException, UploadFile, File, Form
+import os, uuid, json
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sqlmodel import Session, SQLModel, create_engine, select
@@ -10,6 +12,10 @@ from models import *
 
 sqlite_url = "sqlite:///database.db"
 engine = create_engine(sqlite_url, echo=True)
+
+UPLOAD_DIR = "uploads"
+os.makedirs(UPLOAD_DIR, exist_ok=True)  # создаем папку, если нет
+
 
 pwd_context = CryptContext(
     schemes=["bcrypt"],
@@ -24,6 +30,8 @@ async def lifespan(app: FastAPI):
     yield
 
 app = FastAPI(lifespan=lifespan)
+
+app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 
 app.add_middleware(
     CORSMiddleware,
@@ -62,36 +70,71 @@ def login(user: User, response: Response):
 
         return {"id": existing.id, "name": existing.name}
     
-@app.post("/")
-def Home(room: Room):
-    with Session(engine) as session: 
-        stmt = select(Rooms).where(Rooms.name == room.name)
+@app.post("/create-room")
+def create_room(
+    name: str = Form(...),
+    tables: int = Form(...),
+    chairs: int = Form(...),
+    fileNames: str = Form(...)
+):
+    file_names_list = json.loads(fileNames)  # теперь это Python list
+
+    with Session(engine) as session:
+        stmt = select(Rooms).where(Rooms.name == name)
         existing = session.exec(stmt).first()
         if existing:
             raise HTTPException(status_code=400, detail="Комната уже существует")
-        db_room = Rooms(name=room.name, tables=room.tables, chairs=room.chairs, photo=room.filename)
+
+        # создаем записи для каждой комнаты/файла или просто одну запись с массивом в JSON
+        db_room = Rooms(
+            name=name,
+            tables=tables,
+            chairs=chairs,
+            photo=json.dumps(file_names_list)  # если хочешь хранить массив в поле DB
+        )
         session.add(db_room)
         session.commit()
         session.refresh(db_room)
 
-        return {"id": db_room.id, "name": db_room.name}
+        return {"id": db_room.id, "name": db_room.name, "files": file_names_list}
+    
+
+@app.post("/file")
+async def upload_file(
+    roomPhoto: UploadFile = File(...),
+    username: str = Form(...),
+    userId: str = Form(...)
+):
+    # проверка пользователя через БД
+    with Session(engine) as session:
+        stmt = select(Users).where(Users.id == int(userId))
+        existing_user = session.exec(stmt).first()
+
+        if not existing_user or existing_user.name != username:
+            raise HTTPException(status_code=401, detail="Invalid user")
+
+    # сохраняем файл
+
+    file_ext = roomPhoto.filename.split(".")[-1]  # jpg, png и тп
+    new_filename = f"{uuid.uuid4()}.{file_ext}"
+
+
+    file_location = os.path.join(UPLOAD_DIR, new_filename)
+
+    with open(file_location, "wb") as f:
+        f.write(await roomPhoto.read())
+
+    return {"filename": new_filename}
+        
         
 @app.get("/dashboard")
-def Dashboard(user: LoginedUser):
+def Dashboard():
     with Session(engine) as session:
-        stmt_user = select(Users).where(
-            Users.id == user.id,
-            Users.name == user.name
-        )
-        existing = session.exec(stmt_user).first()
-        if not existing:
-            raise HTTPException(status_code=400, detail="Данного пользователя не существует")
-
+        
         # fetch all rooms
         stmt_rooms = select(Rooms)
         rooms = session.exec(stmt_rooms).all()
 
         return {
-            "user": existing,
             "rooms": rooms
         }
