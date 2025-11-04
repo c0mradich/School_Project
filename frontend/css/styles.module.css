@@ -1,0 +1,200 @@
+/* ===== GLOBAL ===== */
+:global(body) {
+    background-color: #f4f6f9;
+}
+
+/* Error */
+.error{
+    color: red;
+}
+
+/* ===== FORM WRAPPER ===== */
+.form {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 90vh;
+    gap: 20px;
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.link {
+  display: inline-block;
+  margin-top: 10px;
+  text-decoration: none;
+  color: rgb(39, 97, 114);       /* корпоративный синий/teal */
+  font-weight: 500;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.link strong {
+  font-weight: 700;
+}
+
+.link:hover {
+  color: rgb(50, 120, 140);      /* светлее при hover */
+  transform: translateY(-1px);   /* лёгкий микро-подъём для UX */
+}
+
+
+.title {
+  font-size: 2rem;          /* крупный заголовок */
+  font-weight: 700;          /* жирный */
+  color: rgb(39, 97, 114);   /* корпоративный синий/teal */
+  margin-bottom: 1.5rem;     /* отступ снизу перед инпутами */
+  text-align: center;        /* центрируем текст */
+}
+
+/* ===== TEXT + LINKS ===== */
+:global(input),
+:global(a) {
+    color: rgb(39, 36, 36);
+}
+
+:global(strong) {
+    color: rgb(81, 157, 180);
+}
+
+/* ===== BUTTON ===== */
+.button {
+    width: 40%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: all 0.3s ease-in-out;
+    background-color: rgb(39, 97, 114);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 50px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.button:hover {
+    background-color: rgb(50, 120, 140);
+}
+
+.button:active {
+    animation: button 0.2s ease;
+    transform: translateY(2px);
+}
+
+/* ===== INPUT BLOCK ===== */
+.inputContainer {
+    width: 40%;
+    position: relative;
+}
+
+.input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: all 0.3s ease-in-out;
+}
+
+/* ===== LABEL ===== */
+.label {
+    position: absolute;
+    top: 0.7rem;
+    left: 0.7rem;
+    color: #bbb;
+    font-size: 1rem;
+    pointer-events: none;
+    transition: 0.2s ease all;
+    background: #f4f6f9;
+    padding: 0 0.3rem;
+    border-radius: 3px;
+}
+/* input уже есть: .input { ... placeholder: " " } */
+
+/* метка поверх инпута */
+.floatingLabel {
+  position: absolute;
+  top: 50%;
+  left: 0.75rem;
+  transform: translateY(-50%) translateZ(0);
+  background: #f4f6f9;        /* совпадает с формой/фоном инпута */
+  padding: 0 6px;             /* чтобы "разрывать" рамку инпута */
+  border-radius: 3px;
+  color: #9aa4ad;
+  font-size: 1rem;
+  pointer-events: none;
+  transition: transform 0.18s ease, top 0.18s ease, font-size 0.18s ease, color 0.18s ease;
+  z-index: 2;
+}
+
+/* когда input сфокусирован или не пустой — поднимаем метку */
+.input:focus + .floatingLabel,
+.input:not(:placeholder-shown) + .floatingLabel {
+  top: -0.5rem;
+  transform: translateY(0) translateZ(0);
+  font-size: 0.75rem;
+  color: rgb(39, 97, 114);
+  z-index: 3;
+}
+
+/* дополнительная визуальная поддержка: inset для активного состояния */
+.input:focus {
+  box-shadow: 0 0 6px rgba(39, 97, 114, 0.12);
+  border-color: rgb(39, 97, 114);
+}
+
+/* чтобы метка не перекрывала содержимое при анимации в старых браузерах */
+.input:-webkit-autofill + .floatingLabel {
+  top: -0.5rem;
+  font-size: 0.75rem;
+  color: rgb(39, 97, 114);
+}
+
+.input:focus + .label,
+.input:not(:placeholder-shown) + .label {
+    font-size: 0.8em;
+    color: rgb(39, 97, 114);
+    top: -0.6rem;
+    left: 0.8rem;
+}
+
+/* ===== FOCUS ===== */
+:global(form *) :focus {
+    border-color: rgb(39, 97, 114);
+    box-shadow: 0 0 5px rgb(39, 97, 114);
+    outline: none;
+}
+
+/* ===== KEYFRAME ===== */
+@keyframes button {
+    from {
+        top: 0;
+        left: 0;
+    }
+    to {
+        top: 2px;
+        left: 1px;
+    }
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+    .form > * {
+        width: 80%;
+    }
+
+    .form {
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .label {
+        font-size: large;
+    }
+}

@@ -1,5 +1,5 @@
 /* ================== Базовые стили страницы ================== */
-body {
+:global(body) {
   min-height: 100vh;
   background: linear-gradient(135deg, #2b2b2b, #1f1f1f);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -8,17 +8,17 @@ body {
   margin: 0;
 }
 
-main {
+:global(main) {
   flex: 1;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px; /* breathing room на мобилках */
+  padding: 20px;
 }
 
 /* ================== Форма ================== */
-form {
+.form {
   width: 100%;
   max-width: 450px;
   background: #333;
@@ -32,7 +32,7 @@ form {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-form:hover {
+.form:hover {
   transform: translateY(-3px);
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
 }
@@ -45,8 +45,7 @@ form:hover {
 }
 
 /* ================== Текстовые и числовые инпуты ================== */
-form input[type="text"],
-form input[type="number"] {
+.inputText {
   width: 100%;
   padding: 16px 12px;
   background: #444;
@@ -58,15 +57,14 @@ form input[type="number"] {
   transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
 }
 
-form input[type="text"]:focus,
-form input[type="number"]:focus {
+.inputText:focus {
   border-color: #ff7f50;
   background: #555;
   box-shadow: 0 0 8px rgba(255, 127, 80, 0.5);
 }
 
 /* ================== Плавающие лейблы ================== */
-form label {
+.label {
   position: absolute;
   top: 50%;
   left: 12px;
@@ -77,8 +75,8 @@ form label {
   transition: 0.3s ease all;
 }
 
-form input:focus + label,
-form input:not(:placeholder-shown) + label {
+.inputText:focus + .label,
+.inputText:not(:placeholder-shown) + .label {
   top: -10px;
   left: 10px;
   font-size: 12px;
@@ -88,7 +86,7 @@ form input:not(:placeholder-shown) + label {
 }
 
 /* ================== Кнопки ================== */
-form button, form input[type="submit"] {
+.button {
   padding: 16px;
   background: #ff7f50;
   color: #fff;
@@ -101,7 +99,7 @@ form button, form input[type="submit"] {
   transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
 }
 
-form button:hover, form input[type="submit"]:hover {
+.button:hover {
   background: #e76f3c;
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(255, 127, 80, 0.5);
@@ -115,7 +113,7 @@ form button:hover, form input[type="submit"]:hover {
   gap: 6px;
 }
 
-input[type="file"] {
+.inputFile {
   position: absolute;
   opacity: 0;
   width: 0;
@@ -123,7 +121,7 @@ input[type="file"] {
   pointer-events: none;
 }
 
-.inputFileContainer label {
+.fileLabel {
   background: #ff7f50;
   color: #fff;
   padding: 12px 18px;
@@ -135,17 +133,12 @@ input[type="file"] {
   transition: .2s ease-in-out;
 }
 
-.inputFileContainer span::selection{
-  cursor: pointer;
-}
-
-.inputFileContainer label:hover {
+.fileLabel:hover {
   background: #e76f3c;
   transform: translateY(-2px);
 }
 
-/* Подпись с именем файла */
-.inputFileContainer .fileName {
+.fileName {
   font-size: 14px;
   color: #bbb;
   word-break: break-word;
@@ -153,12 +146,14 @@ input[type="file"] {
 
 /* ================== Адаптивность ================== */
 @media (max-width: 500px) {
-  form {
+  .form {
     padding: 20px 15px;
     gap: 18px;
   }
 
-  form input, form button, .inputFileContainer label {
+  .inputText,
+  .button,
+  .fileLabel {
     font-size: 15px;
     padding: 14px;
   }

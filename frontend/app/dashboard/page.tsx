@@ -1,5 +1,5 @@
 "use client"
-import "../../css/dashboard.css"
+import styles from "../../css/dashboard.module.css"
 import { useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
 
@@ -36,33 +36,34 @@ export default function Dashboard() {
   }, [])
 
   return (
-  <main>
-    {rooms.map((room) => {
-      const photos: string[] = JSON.parse(room.photo || "[]");
-      return (
-        <div className="RoomsContainer" key={room.id}>
-          <div className="Room_Name">
-            <span>Name: {room.name}</span>
-          </div>
-          <div className="chairs">
-            <span>Chairs: {room.chairs}</span>
-          </div>
-          <div className="tables">
-            <span>Tables: {room.tables}</span>
-          </div>
-          <div className="photos">
-            {photos.map((file, idx) => (
-              <img
-                key={idx}
-                src={`${apiURL}/uploads/${file}`}
-                alt={`Room photo ${idx + 1}`}
-                width={150}
-              />
-            ))}
-          </div>
+<main className={styles.mainGrid}>
+  {rooms.map((room) => {
+    const photos: string[] = JSON.parse(room.photo || "[]");
+    return (
+      <div className={styles.roomsContainer} key={room.id}>
+        <div className={styles.roomName}>
+          <span>Name: {room.name}</span>
         </div>
-      );
-    })}
-  </main>
+        <div className={styles.chairs}>
+          <span>Chairs: {room.chairs}</span>
+        </div>
+        <div className={styles.tables}>
+          <span>Tables: {room.tables}</span>
+        </div>
+        <div className={styles.photos}>
+          {photos.map((file, idx) => (
+            <img
+              key={idx}
+              src={`${apiURL}/uploads/${file}`}
+              alt={`Room photo ${idx + 1}`}
+              width={150}
+              className={styles.photoImg} // если хочешь можно добавить отдельный класс для img
+            />
+          ))}
+        </div>
+      </div>
+    );
+  })}
+</main>
   )
 }

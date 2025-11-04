@@ -1,0 +1,56 @@
+/* main-контейнер всех комнат */
+.mainGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Карточка комнаты */
+.roomsContainer {
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 15px;
+  padding: 15px;
+  background-color: #fefefe;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.roomsContainer:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+/* Название комнаты */
+.roomName {
+  font-size: 1.8rem;
+  background-color: rgba(0, 0, 0, 0.1);
+  color: black;
+  padding: 5px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+/* Таблицы и стулья */
+.chairs, .tables {
+  font-size: 1rem;
+  color: #333;
+}
+
+/* Сетка для фоток внутри карточки */
+.photos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.photos img {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 5px;
+}

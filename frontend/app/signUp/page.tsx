@@ -1,9 +1,9 @@
 'use client'
 import { useState, useRef, createContext } from 'react';
 import { useRouter } from 'next/navigation';
-import "../../css/styles.css"
 import Link from 'next/link';
 import { useUser } from "../context/UserContext";
+import styles from "../../css/styles.module.css"
 
 const apiURL = process.env.NEXT_PUBLIC_API_URL
 
@@ -81,47 +81,55 @@ export default function SignUp() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>Sign-Up</label>
+  <form className={styles.form} onSubmit={handleSubmit}>
+    <label className={styles.title}>Sign-Up</label>
 
-      <div className='inputContainer'>
-        <input
-          placeholder=" "
-          name='name'
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <label htmlFor="name">Name</label>
-      </div>
-      {errors.name && <span style={{ color: 'red' }}>{errors.name}</span>}
+    <div className={styles.inputContainer}>
+      <input
+        className={styles.input}
+        placeholder=" "
+        name="name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <label className={styles.label} htmlFor="name">Name</label>
+    </div>
+    {errors.name && <span className={styles.error}>{errors.name}</span>}
 
-      <div className="inputContainer">
-        <input
-          name="password"
-          type="password"
-          placeholder=" "
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <label htmlFor="password">Password</label>
-      </div>
-      {errors.password && <span style={{ color: 'red' }}>{errors.password}</span>}
+    <div className={styles.inputContainer}>
+      <input
+        className={styles.input}
+        name="password"
+        type="password"
+        placeholder=" "
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <label className={styles.label} htmlFor="password">Password</label>
+    </div>
+    {errors.password && <span className={styles.error}>{errors.password}</span>}
 
-      <div className='inputContainer'>
-        <input
-          name='repeatPassword'
-          type="password"
-          placeholder=" "
-          ref={rpassword}
-        />
-        <label htmlFor="repeatPassword">Repeat Password</label>
-      </div>
-      {errors.repeat && <span style={{ color: 'red' }}>{errors.repeat}</span>}
+    <div className={styles.inputContainer}>
+      <input
+        className={styles.input}
+        name="repeatPassword"
+        type="password"
+        placeholder=" "
+        ref={rpassword}
+      />
+      <label className={styles.label} htmlFor="repeatPassword">Repeat Password</label>
+    </div>
+    {errors.repeat && <span className={styles.error}>{errors.repeat}</span>}
 
-      {errors.server && <div style={{ color: 'red', marginTop: '5px' }}>{errors.server}</div>}
+    {errors.server && (
+      <div className={styles.errorServer}>{errors.server}</div>
+    )}
 
-      <button type="submit">Sign Up</button>
-      <Link href="/login">You have an account? <strong>Log In!</strong></Link>
-    </form>
+    <button className={styles.button} type="submit">Sign Up</button>
+
+    <Link className={styles.link} href="/login">
+      You have an account? <strong>Log In!</strong>
+    </Link>
+  </form>
   );
 }

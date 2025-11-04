@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '../context/UserContext';
 import Link from 'next/link';
-import '../../css/styles.css';
+import styles from '../../css/styles.module.css';
 
 const apiURL = process.env.NEXT_PUBLIC_API_URL
 
@@ -77,34 +77,39 @@ function SignIn() {
   };
 
   return (
-    <form onSubmit={handleSubmit} method='POST'>
-      <label>Login</label>
-      <div className='inputContainer'>
+  <form onSubmit={handleSubmit} method="POST" className={styles.form}>
+      <label className={styles.title}>Login</label>
+
+      <div className={styles.inputContainer}>
         <input
           placeholder=" "
           name="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          className={styles.input}
         />
-        <label htmlFor="name"> Name </label>
+        <label htmlFor="name" className={styles.floatingLabel}>Name</label>
       </div>
+      {errors.name && <span className={styles.error}>{errors.name}</span>}
 
-      {errors.name && <span style={{ color: 'red' }}>{errors.name}</span>}
-    <div className='inputContainer'>
-      <input
-        type="password"
-        placeholder=" "
-        name="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <label htmlFor="password"> Password </label>
-    </div>
-      {errors.password && <span style={{ color: 'red' }}>{errors.password}</span>}
+      <div className={styles.inputContainer}>
+        <input
+          type="password"
+          placeholder=" "
+          name="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className={styles.input}
+        />
+        <label htmlFor="password" className={styles.floatingLabel}>Password</label>
+      </div>
+      {errors.password && <span className={styles.error}>{errors.password}</span>}
 
-      <button type="submit">Login</button>
+      <button type="submit" className={styles.button}>Login</button>
 
-      <Link href="/signUp">You don't have an account? <strong>Sign Up!</strong></Link>
+      <Link href="/signUp" className={styles.link}>
+        You don't have an account? <strong>Sign Up!</strong>
+      </Link>
     </form>
   );
 }

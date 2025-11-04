@@ -1,5 +1,5 @@
 'use client';
-import "../css/main.css"
+import main from  "../css/main.module.css"
 import { useState, useEffect ,useRef } from "react";
 import { useRouter } from "next/navigation";
 
@@ -23,11 +23,11 @@ export default function Home() {
     setUserId(uid || '')
     setUserName(uname || '')
 
-    if (!uid || !uname) {
-      router.replace("/login")
-    } else {
-      setReady(true)
-    }
+      if (!uid || !uname) {
+        window.location.href = "/login"; // полный переход на страницу логина
+      } else {
+        setReady(true);
+      }
   }, [])
 
   if (!ready) return null
@@ -76,64 +76,78 @@ export default function Home() {
 
 
   return (
-    <main>
-    <form onSubmit={handleSubmit}>
-      <div className="inputContainer">
-        <input
-          type="text"
-          name="klassname"
-          placeholder=" "
-          value={klassname}
-          onChange={(e) => setKlassname(e.target.value)}
-        />
-        <label htmlFor="klassname">Name of Room</label>
-      </div>
+<main>
+  <form className={main.form} onSubmit={handleSubmit}>
+    
+    <div className={main.inputContainer}>
+      <input
+        className={main.inputText}
+        type="text"
+        name="klassname"
+        placeholder=" "
+        value={klassname}
+        onChange={(e) => setKlassname(e.target.value)}
+      />
+      <label className={main.label} htmlFor="klassname">Name of Room</label>
+    </div>
 
-      <div className="inputContainer">
-        <input
-          type="number"
-          name="amountOfTables"
-          placeholder=" "
-          value={amountOfTables}
-          onChange={(e) => setAmountOfTables(Number(e.target.value))}
-        />
-        <label htmlFor="amountOfTables">Amount of Tables</label>
-      </div>
+    <div className={main.inputContainer}>
+      <input
+        className={main.inputText}
+        type="number"
+        name="amountOfTables"
+        placeholder=" "
+        value={amountOfTables}
+        onChange={(e) => setAmountOfTables(Number(e.target.value))}
+      />
+      <label className={main.label} htmlFor="amountOfTables">Amount of Tables</label>
+    </div>
 
-      <div className="inputContainer">
-        <input
-          type="number"
-          name="amountOfChairs"
-          placeholder=" "
-          value={amountOfChairs}
-          onChange={(e) => setAmountOfChairs(Number(e.target.value))}
-        />
-        <label htmlFor="amountOfChairs">Amount of Chairs</label>
-      </div>
+    <div className={main.inputContainer}>
+      <input
+        className={main.inputText}
+        type="number"
+        name="amountOfChairs"
+        placeholder=" "
+        value={amountOfChairs}
+        onChange={(e) => setAmountOfChairs(Number(e.target.value))}
+      />
+      <label className={main.label} htmlFor="amountOfChairs">Amount of Chairs</label>
+    </div>
 
-      <div className="inputFileContainer">
-        <input 
-          type="file" 
-          name="RoomPhoto" 
-          id="RoomPhoto" 
-          onChange={handleFile}
-          ref={inputFileRef}
-        />
-        <span onClick={() => inputFileRef.current?.click()}>
-            📸 Upload room photo
-        </span>
+    <div className={main.inputFileContainer}>
+      <input 
+        type="file" 
+        name="RoomPhoto" 
+        id="RoomPhoto" 
+        onChange={handleFile}
+        ref={inputFileRef}
+        className={main.inputFile}
+      />
 
-        <span className="fileName">
-          {fileNames.map((name, i) => (
-            <div key={i}>{name}</div>
-          ))}
-        </span>
-      </div>
+      <label 
+        htmlFor="RoomPhoto" 
+        className={main.fileLabel}
+      >
+        📸 Upload room photo
+      </label>
 
-      <div className="inputContainer">
-        <input type="submit" value="Add Room"/>
-      </div>
-    </form>
-    </main>
+      <span className={main.fileName}>
+        {fileNames.map((name, i) => (
+          <div key={i}>{name}</div>
+        ))}
+      </span>
+    </div>
+
+    <div>
+      <input 
+        className={main.button}
+        type="submit" 
+        value="Add Room"
+      />
+    </div>
+    
+  </form>
+</main>
   );
 }
