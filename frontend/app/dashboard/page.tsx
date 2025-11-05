@@ -45,10 +45,10 @@ export default function Dashboard() {
           <span>Name: {room.name}</span>
         </div>
         <div className={styles.chairs}>
-          <span>Chairs: {room.chairs}</span>
+          <span>Stuhle: {room.chairs}</span>
         </div>
         <div className={styles.tables}>
-          <span>Tables: {room.tables}</span>
+          <span>Tische: {room.tables}</span>
         </div>
         <div className={styles.photos}>
           {photos.map((file, idx) => (
@@ -57,7 +57,7 @@ export default function Dashboard() {
               src={`${apiURL}/uploads/${file}`}
               alt={`Room photo ${idx + 1}`}
               width={150}
-              className={styles.photoImg} // если хочешь можно добавить отдельный класс для img
+              className={styles.photoImg}
             />
           ))}
         </div>
