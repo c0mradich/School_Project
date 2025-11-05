@@ -127,17 +127,6 @@ async def upload_file(
     return {"filename": new_filename}
         
 
- @app.post("/fetchRoomData")
- def RoomData(
-    room: str = Form()
- ):
-    with Session(engine) as session:
-        stmt_room = select(Rooms).where(Rooms.name==room)
-        existing_room = session.exec(stmt_room).first()
-        if (not existing_room):
-            return {"success": "false", "error": "No room with this name exists"}
-        return {"room": existing_room}
-
 @app.get("/dashboard")
 def Dashboard():
     with Session(engine) as session:
