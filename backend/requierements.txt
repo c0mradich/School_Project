@@ -5,3 +5,4 @@ typing
 passlib
 bcrypt==4.1.2
 python-multipart
+uvicorn
