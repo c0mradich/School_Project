@@ -10,6 +10,7 @@ from passlib.context import CryptContext
 from classes import *
 from models import *
 
+
 sqlite_url = "sqlite:///database.db"
 engine = create_engine(sqlite_url, echo=True)
 
@@ -138,3 +139,26 @@ def Dashboard():
         return {
             "rooms": rooms
         }
+
+@app.post("/fetchRoomData")
+async def fetchRoomData(request: Request):
+    data = await request.json()
+    room = data.get("room")
+
+    with Session(engine) as session:
+        stmt_room = select(Rooms).where(Rooms.name == room)
+        current_room = session.exec(stmt_room).first()
+
+        if current_room:
+            # Преобразуем в словарь
+            room_dict = {
+                "id": current_room.id,
+                "name": current_room.name,
+                "tables": current_room.tables,
+                "chairs": current_room.chairs,
+                "photo": current_room.photo
+            }
+            return JSONResponse(content={"room": room_dict, "status": "ok"})
+
+        return JSONResponse(content={"error": "Room not found"})
+

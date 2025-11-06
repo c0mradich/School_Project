@@ -40,7 +40,7 @@ export default function Dashboard() {
   {rooms.map((room) => {
     const photos: string[] = JSON.parse(room.photo || "[]");
     return (
-      <div className={styles.roomsContainer} key={room.id} onClick={()=>{router.push(`/${room.name}`)}} >
+      <div className={styles.roomsContainer} key={room.id} onClick={()=>{router.push(`/room/${room.name}`)}} >
         <div className={styles.roomName}>
           <span>Name: {room.name}</span>
         </div>
