@@ -19,6 +19,9 @@ type RoomData = {
 
 export default function RoomClient({ room }: { room: string }) {
   const [data, setData] = useState<RoomData | null>(null)
+  const [roomName, setRoomName] = useState('')
+  const [chairs, setChairs] = useState('')
+  const [tables, setTables] = useState('')
   const apiURL = process.env.NEXT_PUBLIC_API_URL
 
   useEffect(() => {
@@ -42,28 +45,77 @@ export default function RoomClient({ room }: { room: string }) {
       }
 
       setData(json)
-      console.log(json)
+      setRoomName(json.room.name)
+      setChairs(json.room.chairs)
+      setTables(json.room.tables)
     }
 
     fetchData()
   }, [room, apiURL])
 
+  const editFunc = async (msg: Object)=>{
+    const res = await fetch(`${apiURL}/editRoomDetail`, {
+      method: "POST",
+      body: JSON.stringify({roomName: roomName, msg: msg})
+    })
+    const data = await res.json()
+    console.log(data)
+    return data
+  }
+
   if (!data) return <p className={styles.loading}>Lade Raumdaten...</p>
 
   return (
-  <div className={styles.container}>
-    <div className={styles.card}>
-      <h1 className={styles.roomName}>Room: {data.room.name}</h1>
-      <p className={styles.details}>Tische: {data.room.tables}</p>
-      <p className={styles.details}>Stühle: {data.room.chairs}</p>
-      {data.message && <p className={styles.details}>{data.message}</p>}
+    <div className={styles.container}>
+            <div className={styles.card}>
+        <h1 className={styles.roomName}>Raum: {roomName}</h1>
 
-      <div className={styles.photos}>
-        {data.room.photo.map((p, i) => (
-          <img key={i} src={`${apiURL}/uploads/${p}`} alt={`Room ${data.room.name} photo`} />
-        ))}
+        <div className={styles.infoBlock}>
+          <div className={styles.infoRow}>
+            <label className={styles.details}>
+              Tische: 
+              <input
+                type="text"
+                value={tables}
+                onChange={(e) => setTables(e.target.value)}
+                className={styles.inputField}
+              />
+            </label>
+            <button className={styles.saveBtn} onClick={()=>{editFunc({tables: tables})}}>Save</button>
+          </div>
+
+          <div className={styles.infoRow}>
+            <label className={styles.details}>
+              Stühle:
+              <input
+                type="text"
+                value={chairs}
+                onChange={(e) => setChairs(e.target.value)}
+                className={styles.inputField}
+              />
+            </label>
+            <button className={styles.saveBtn} onClick={()=>{editFunc({chairs: chairs})}}>Save</button>
+          </div>
+
+
+          {data.message && (
+            <div className={styles.infoRow}>
+              <p className={styles.details}>{data.message}</p>
+              <button className={styles.editBtn}>Edit</button>
+            </div>
+          )}
+        </div>
+
+        <div className={styles.photos}>
+          {data.room.photo.map((p, i) => (
+            <img
+              key={i}
+              src={`${apiURL}/uploads/${p}`}
+              alt={`Room ${data.room.name} photo`}
+            />
+          ))}
+        </div>
       </div>
     </div>
-  </div>
   )
 }

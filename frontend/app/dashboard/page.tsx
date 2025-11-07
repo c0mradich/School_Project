@@ -42,7 +42,7 @@ export default function Dashboard() {
     return (
       <div className={styles.roomsContainer} key={room.id} onClick={()=>{router.push(`/room/${room.name}`)}} >
         <div className={styles.roomName}>
-          <span>Name: {room.name}</span>
+          <span>Raum: {room.name}</span>
         </div>
         <div className={styles.chairs}>
           <span>Stuhle: {room.chairs}</span>

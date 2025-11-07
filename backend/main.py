@@ -162,3 +162,29 @@ async def fetchRoomData(request: Request):
 
         return JSONResponse(content={"error": "Room not found"})
 
+@app.post("/editRoomDetail")
+async def editRoomDetail(request: Request):
+    data = await request.json()
+    roomName = data.get("roomName")
+    msg = data.get("msg")
+    print("MSG", msg)
+
+    with Session(engine) as session:
+        # Находим комнату по имени
+        stmt_room = select(Rooms).where(Rooms.name == roomName)
+        current_room = session.exec(stmt_room).first()
+
+        if not current_room:
+            return {"error": "Room not found"}
+
+        # Проходимся по ключам msg и обновляем поля
+        for key, value in msg.items():
+            if hasattr(current_room, key):
+                setattr(current_room, key, value)
+
+        session.add(current_room)
+        session.commit()
+        session.refresh(current_room)
+
+    return {"ok": True, "updated": msg}
+

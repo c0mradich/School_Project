@@ -60,3 +60,56 @@
   transform: scale(1.05);
   cursor: pointer;
 }
+.infoBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fafafa;
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.infoRow:hover {
+  background-color: #f0f0f0;
+}
+
+.infoRow:hover .editBtn {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.inputField {
+  margin-left: 0.6rem;
+  padding: 4px 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.saveBtn {
+  background: #16a34a; /* зелёный акцент под “успешно” */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.2s ease, background-color 0.2s ease;
+}
+
+.infoRow:hover .saveBtn {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.saveBtn:hover {
+  background: #15803d;
+}
