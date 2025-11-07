@@ -1,10 +1,9 @@
-from fastapi import FastAPI, Request, Response, Depends, HTTPException, UploadFile, File, Form
+from fastapi import FastAPI, Request, Response, HTTPException, UploadFile, File, Form
 import os, uuid, json
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sqlmodel import Session, SQLModel, create_engine, select
-from datetime import datetime
 from contextlib import asynccontextmanager
 from passlib.context import CryptContext
 from classes import *

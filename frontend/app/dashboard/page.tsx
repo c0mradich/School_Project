@@ -15,7 +15,6 @@ export default function Dashboard() {
       })
       const data = await res.json()
       setRooms(data.rooms)
-      console.log(data.rooms) 
     } catch (err) {
       console.log("fetching fail pipeline", err)
     }

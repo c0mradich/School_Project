@@ -1,5 +1,7 @@
 Classroom Manager 🏫
 ![Adding_Room](/assets/Examples/Adding_Room.png)
+![dashboard](/assets/Examples/dashboard.png)
+![room](/assets/Examlples/room.png)
 Classroom Manager is a sleek, intuitive web application designed to simplify the management of classrooms and learning spaces. Whether you're a teacher, school admin, or project manager, this tool lets you quickly organize classroom layouts, track furniture, and upload room photos for visual reference — all in one place.
 
 🚀 Features
