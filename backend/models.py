@@ -1,6 +1,5 @@
-from sqlmodel import SQLModel, Field, Relationship
-from typing import Optional, List
-from datetime import datetime
+from sqlmodel import SQLModel, Field
+from typing import Optional
 
 class Users(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -12,4 +11,5 @@ class Rooms(SQLModel, table=True):
     name: str
     tables: int
     chairs: int
+    level: Optional[int] = Field(default=0)
     photo: str

@@ -8,7 +8,7 @@ export default function Header() {
     <header style={{ padding: "1rem" }}>
       <span
         style={{ cursor: "pointer", fontWeight: 700, fontSize: "1.2rem" }}
-        onClick={() => router.push("/dashboard")}
+        onClick={() => router.push("/ebene")}
       >
         TeachBetter
       </span>

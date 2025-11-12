@@ -1,0 +1,119 @@
+.Main {
+  min-height: 100vh;
+  padding: 3rem 2rem;
+  background: linear-gradient(135deg, #e3ecf7, #dbe7ff);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.Header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.Header h1 {
+  font-size: 2.4em;
+  color: #1a1a1a;
+  font-weight: 700;
+}
+
+.Subheader {
+  color: #555;
+  font-size: 1.1em;
+  margin-top: 0.3rem;
+}
+
+.Loading,
+.Empty {
+  font-size: 1.2em;
+  color: #666;
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.RoomGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.8rem;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.RoomCard {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.6rem;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.RoomCard:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 14px 25px rgba(0, 0, 0, 0.18);
+}
+
+.RoomHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 0.5rem;
+}
+
+.RoomHeader h2 {
+  font-size: 1.3em;
+  color: #0070f3;
+}
+
+.RoomHeader span {
+  font-size: 0.9em;
+  color: #444;
+  background: #eef3ff;
+  padding: 0.3rem 0.7rem;
+  border-radius: 8px;
+}
+
+.RoomBody {
+  margin-top: 1rem;
+  font-size: 1em;
+  color: #333;
+  line-height: 1.5;
+}
+
+.RoomFooter {
+  margin-top: 1rem;
+  font-size: 0.95em;
+  color: #666;
+  text-align: right;
+  font-style: italic;
+}
+
+.AddRoomButton {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  background: #0070f3;
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 2em;
+  line-height: 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 14px rgba(0, 112, 243, 0.4);
+}
+
+.AddRoomButton:hover {
+  transform: scale(1.15) rotate(10deg);
+  background: #0059c9;
+  box-shadow: 0 10px 20px rgba(0, 112, 243, 0.6);
+}

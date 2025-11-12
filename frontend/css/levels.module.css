@@ -1,0 +1,68 @@
+.Main {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  min-height: 95vh;
+  padding: 2rem;
+  background: linear-gradient(135deg, #eef2f3, #8e9eab);
+}
+
+.Level {
+  flex: 1 1 30%;
+  border-radius: 20px;
+  padding: 2rem;
+  margin: 1rem;
+  background: white;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 60vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.Level::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 0;
+}
+
+.Level:hover::before {
+  opacity: 0.2;
+}
+
+.Level:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+}
+
+.Level__Header {
+  font-size: 2.2em;
+  font-weight: 800;
+  text-align: center;
+  color: #222;
+  z-index: 1;
+}
+
+.Level__Content {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 1.1em;
+  color: #444;
+  z-index: 1;
+}
+
+.Level__Hint {
+  margin-top: 1rem;
+  font-size: 0.9em;
+  font-style: italic;
+  color: #0070f3;
+  opacity: 0.8;
+}

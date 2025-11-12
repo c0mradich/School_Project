@@ -35,24 +35,26 @@ export default function Home() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const formData = new FormData()
-    formData.append("name", klassname)
-    formData.append("tables", amountOfTables.toString())
-    formData.append("chairs", amountOfChairs.toString())
-    formData.append("userId", userId)
-    formData.append("userName", userName)
-    formData.append("fileNames", JSON.stringify(fileNames));
+
+    const payload = {
+      name: klassname,
+      tables: amountOfTables,
+      chairs: amountOfChairs,
+      filename: JSON.stringify(fileNames)
+    };
 
     const res = await fetch(`${apiURL}/create-room`, {
       method: "POST",
-      body: formData
-    }) 
+      headers: { "Content-Type": "application/json" }, // важный момент
+      body: JSON.stringify(payload)
+    });
 
-    const data = await res.json()
-    console.log(data)
+    const data = await res.json();
+    console.log(data);
 
     console.log({ klassname, amountOfTables, amountOfChairs, fileNames });
   };
+
 
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

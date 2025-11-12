@@ -1,5 +1,5 @@
 'use client'
-import { useState, useRef, createContext } from 'react';
+import { useState, useEffect, useRef, createContext } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useUser } from "../context/UserContext";
@@ -15,9 +15,11 @@ export default function SignUp() {
   const { setUser, user } = useUser();
   const router = useRouter();
 
-  if (user!==null){
-    router.push("/dashboard")
-  }
+    useEffect(() => {
+      if (user !== null) {
+        router.push("/dashboard");
+      }
+    }, [user, router]);
 
   const validate = () => {
     const newErrors: { [key: string]: string } = {};

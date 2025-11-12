@@ -49,6 +49,9 @@ export default function Dashboard() {
         <div className={styles.tables}>
           <span>Tische: {room.tables}</span>
         </div>
+        <div>
+          <span>Ebene: {room.level}</span>
+        </div>
         <div className={styles.photos}>
           {photos.map((file, idx) => (
             <img

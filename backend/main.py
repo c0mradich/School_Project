@@ -33,9 +33,14 @@ app = FastAPI(lifespan=lifespan)
 
 app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 
+origins = [
+    "http://localhost:3000",  # фронт
+    "http://127.0.0.1:3000",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=origins,  # можно ["*"] для dev
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -71,32 +76,26 @@ def login(user: User, response: Response):
         return {"id": existing.id, "name": existing.name}
     
 @app.post("/create-room")
-def create_room(
-    name: str = Form(...),
-    tables: int = Form(...),
-    chairs: int = Form(...),
-    fileNames: str = Form(...)
-):
-    file_names_list = json.loads(fileNames)  # теперь это Python list
-
+def create_room(room: Room):
+    print("Rooms:", room)
     with Session(engine) as session:
-        stmt = select(Rooms).where(Rooms.name == name)
+        stmt = select(Rooms).where(Rooms.name == room.name)
         existing = session.exec(stmt).first()
         if existing:
             raise HTTPException(status_code=400, detail="Комната уже существует")
 
-        # создаем записи для каждой комнаты/файла или просто одну запись с массивом в JSON
         db_room = Rooms(
-            name=name,
-            tables=tables,
-            chairs=chairs,
-            photo=json.dumps(file_names_list)  # если хочешь хранить массив в поле DB
+            name=room.name,
+            tables=room.tables,
+            chairs=room.chairs,
+            level= int(room.name[1])+1,
+            photo=room.filename
         )
         session.add(db_room)
         session.commit()
         session.refresh(db_room)
 
-        return {"id": db_room.id, "name": db_room.name, "files": file_names_list}
+        return db_room
     
 
 @app.post("/file")
@@ -187,3 +186,12 @@ async def editRoomDetail(request: Request):
 
     return {"ok": True, "updated": msg}
 
+@app.get("/fetchLevelData")
+def fetchLevelData(level: int):
+    #DEBUG 
+    print("LEVEL", level)
+
+    with Session(engine) as session:
+        stmt_rooms = select(Rooms).where(Rooms.level == level)
+        level_rooms = session.exec(stmt_rooms).all()
+    return {"level_rooms": level_rooms or None}

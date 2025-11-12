@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 class User(BaseModel):
     name: str
@@ -9,7 +9,7 @@ class LoginedUser(BaseModel):
     name: str
 
 class Room(BaseModel):
-    name: str
+    name: str = Field(..., pattern=r"^H\d{3}$")
     tables: int
     chairs: int
     filename: str
