@@ -28,33 +28,63 @@ export default function RoomClient({ room }: { room: string }) {
   const router = useRouter()
 
   useEffect(() => {
-    async function fetchData() {
+  let isMounted = true; // verhindert setState auf ungemounteter Komponente
+
+  async function fetchData() {
+    try {
       const res = await fetch(`${apiURL}/fetchRoomData`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ room }),
-        cache: "no-store",
-      })
+        cache: "no-store", // gut für immer frische Daten
+      });
 
-      const json = await res.json()
+      if (!res.ok) {
+        console.error(`❌ Fehler beim Laden: ${res.status}`);
+        router.push("/ebene");
+        return;
+      }
 
-      // Если photo приходит как JSON-строка, парсим её
+      const json = await res.json();
+      console.log("📦 Raumdaten:", json);
+
+      if (json.error) {
+        console.warn("⚠️ Fehler im JSON:", json.error);
+        router.push("/ebene");
+        return;
+      }
+
+      // 🔧 Falls photo als JSON-String kommt → parse sicher
       if (json.room?.photo && typeof json.room.photo === "string") {
         try {
-          json.room.photo = JSON.parse(json.room.photo)
-        } catch {
-          json.room.photo = [] // fallback на пустой массив
+          json.room.photo = JSON.parse(json.room.photo);
+        } catch (e) {
+          console.warn("⚠️ Fehler beim Parsen von photo:", e);
+          json.room.photo = [];
         }
       }
 
-      setData(json)
-      setRoomName(json.room.name)
-      setChairs(json.room.chairs)
-      setTables(json.room.tables)
-    }
+      // ✅ Nur State setzen, wenn Komponente noch gemountet ist
+      if (isMounted && json.room) {
+        setData(json);
+        setRoomName(json.room.name || "");
+        setChairs(json.room.chairs || []);
+        setTables(json.room.tables || []);
+      }
 
-    fetchData()
-  }, [room, apiURL])
+    } catch (err) {
+      console.error("❌ Fetch-Fehler:", err);
+      router.push("/ebene");
+    }
+  }
+
+  fetchData();
+
+  // cleanup: falls Komponente unmounted wird, verhindern wir setState()
+  return () => {
+    isMounted = false;
+  };
+}, [room, apiURL, router]);
 
   const editFunc = async (msg: Object)=>{
     const res = await fetch(`${apiURL}/editRoomDetail`, {
