@@ -129,8 +129,6 @@ async def upload_file(
 @app.get("/dashboard")
 def Dashboard():
     with Session(engine) as session:
-        
-        # fetch all rooms
         stmt_rooms = select(Rooms)
         rooms = session.exec(stmt_rooms).all()
 
@@ -148,7 +146,6 @@ async def fetchRoomData(request: Request):
         current_room = session.exec(stmt_room).first()
 
         if current_room:
-            # Преобразуем в словарь
             room_dict = {
                 "id": current_room.id,
                 "name": current_room.name,
@@ -168,7 +165,6 @@ async def editRoomDetail(request: Request):
     print("MSG", msg)
 
     with Session(engine) as session:
-        # Находим комнату по имени
         stmt_room = select(Rooms).where(Rooms.name == roomName)
         current_room = session.exec(stmt_room).first()
 
@@ -195,3 +191,23 @@ def fetchLevelData(level: int):
         stmt_rooms = select(Rooms).where(Rooms.level == level)
         level_rooms = session.exec(stmt_rooms).all()
     return {"level_rooms": level_rooms or None}
+
+@app.post("/DeleteRoom")
+async def delete_room(request: Request):
+    data = await request.json()
+    room_id = int(data.get("roomId"))
+
+    if not room_id:
+        raise HTTPException(status_code=400, detail="roomId fehlt")
+
+    with Session(engine) as session:
+        stmt = select(Rooms).where(Rooms.id == room_id)
+        room = session.exec(stmt).first()
+
+        if not room:
+            raise HTTPException(status_code=404, detail="Raum nicht gefunden")
+
+        session.delete(room)
+        session.commit()
+
+    return {"message": f"Raum {room_id} wurde erfolgreich gelöscht"}

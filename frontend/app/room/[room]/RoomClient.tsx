@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import styles from "../../../css/room.module.css"
+import { useRouter } from "next/navigation"
 
 type RoomDesc = {
   id: number
@@ -22,7 +23,9 @@ export default function RoomClient({ room }: { room: string }) {
   const [roomName, setRoomName] = useState('')
   const [chairs, setChairs] = useState('')
   const [tables, setTables] = useState('')
+  const [popUp, setPopUp] = useState(false)
   const apiURL = process.env.NEXT_PUBLIC_API_URL
+  const router = useRouter()
 
   useEffect(() => {
     async function fetchData() {
@@ -62,6 +65,30 @@ export default function RoomClient({ room }: { room: string }) {
     console.log(data)
     return data
   }
+
+const deleteFunc = async (id: number) => {
+  try {
+    const res = await fetch(`${apiURL}/DeleteRoom`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ roomId: id }),
+    });
+
+    if (!res.ok) {
+      const errorText = await res.text();
+      throw new Error(`Fehler beim Löschen: ${res.status} - ${errorText}`);
+    }
+
+    const data = await res.json();
+    console.log("Delete response:", data);
+    router.push("/ebene");
+  } catch (err) {
+    console.error("Fehler in deleteFunc:", err);
+  }
+};
+
 
   if (!data) return <p className={styles.loading}>Lade Raumdaten...</p>
 
@@ -114,6 +141,34 @@ export default function RoomClient({ room }: { room: string }) {
               alt={`Room ${data.room.name} photo`}
             />
           ))}
+        </div>
+        <div>
+          <div className={styles.DeleteBtn} onClick={() => setPopUp(true)}>
+            Delete
+          </div>
+
+          <div
+            className={`${styles.Popup} ${popUp ? styles.show : ""}`}
+            onClick={() => setPopUp(false)} // schließt beim Klick aufs Popup
+          >
+            <div className={styles.PopupContent} onClick={(e) => e.stopPropagation()}>
+              <h3>Sicher löschen?</h3>
+              <div className={styles.ButtonGroup}>
+                <button
+                  className={styles.DeleteConfirm}
+                  onClick={() => deleteFunc(data.room.id)}
+                >
+                  Ja, löschen
+                </button>
+                <button
+                  className={styles.DeleteCancel}
+                  onClick={() => setPopUp(false)}
+                >
+                  Abbrechen
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
