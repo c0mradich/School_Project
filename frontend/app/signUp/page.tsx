@@ -17,7 +17,7 @@ export default function SignUp() {
 
     useEffect(() => {
       if (user !== null) {
-        router.push("/dashboard");
+        router.push("/ebene");
       }
     }, [user, router]);
 
@@ -73,7 +73,7 @@ export default function SignUp() {
         if (rpassword.current) rpassword.current.value = '';
 
         // Редирект на dashboard
-        router.push("/dashboard");
+        router.push("/ebene");
       }
 
     } catch (error) {

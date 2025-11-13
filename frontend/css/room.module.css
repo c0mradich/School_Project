@@ -5,7 +5,7 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh; /* занимает всю высоту экрана */
-  background: #f5f5f5; /* лёгкий фон */
+  background: linear-gradient(135deg, #e3ecf7, #dbe7ff);
   padding: 1rem;
 }
 

@@ -21,7 +21,7 @@ function SignIn() {
   const router = useRouter()
   useEffect(() => {
     if (user) {
-      router.push("/dashboard");
+      router.push("/ebene");
     }
   }, [user]);
 
