@@ -80,75 +80,74 @@ export default function Home() {
   return (
 <main>
   <form className={main.form} onSubmit={handleSubmit}>
-    
+
+    <h2 className={main.title}>Create Room</h2>
+    <p className={main.subtitle}>Configure a new classroom setup</p>
+
     <div className={main.inputContainer}>
       <input
         className={main.inputText}
         type="text"
-        name="klassname"
         placeholder=" "
         value={klassname}
         onChange={(e) => setKlassname(e.target.value)}
       />
-      <label className={main.label} htmlFor="klassname">Name of Room</label>
+      <label className={main.label}>Name of Room</label>
     </div>
 
     <div className={main.inputContainer}>
       <input
         className={main.inputText}
         type="number"
-        name="amountOfTables"
         placeholder=" "
+        min={0}
         value={amountOfTables}
         onChange={(e) => setAmountOfTables(Number(e.target.value))}
       />
-      <label className={main.label} htmlFor="amountOfTables">Amount of Tables</label>
+      <label className={main.label}>Amount of Tables</label>
     </div>
 
     <div className={main.inputContainer}>
       <input
         className={main.inputText}
         type="number"
-        name="amountOfChairs"
         placeholder=" "
+        min={0}
         value={amountOfChairs}
         onChange={(e) => setAmountOfChairs(Number(e.target.value))}
       />
-      <label className={main.label} htmlFor="amountOfChairs">Amount of Chairs</label>
+      <label className={main.label}>Amount of Chairs</label>
     </div>
 
     <div className={main.inputFileContainer}>
       <input 
-        type="file" 
-        name="RoomPhoto" 
-        id="RoomPhoto" 
+        type="file"
+        id="RoomPhoto"
         onChange={handleFile}
         ref={inputFileRef}
         className={main.inputFile}
       />
 
-      <label 
-        htmlFor="RoomPhoto" 
-        className={main.fileLabel}
-      >
+      <label htmlFor="RoomPhoto" className={main.fileLabel}>
         📸 Upload room photo
       </label>
 
-      <span className={main.fileName}>
+      <div className={main.previewList}>
         {fileNames.map((name, i) => (
-          <div key={i}>{name}</div>
+          <div key={i} className={main.previewItem}>
+            <img src={`${apiURL}/uploads/${name}`} alt="" className={main.previewImage}/>
+            <span>{name}</span>
+          </div>
         ))}
-      </span>
+      </div>
     </div>
 
-    <div>
-      <input 
-        className={main.button}
-        type="submit" 
-        value="Add Room"
-      />
-    </div>
-    
+    <input 
+      className={main.button}
+      type="submit"
+      value="Add Room"
+    />
+
   </form>
 </main>
   );

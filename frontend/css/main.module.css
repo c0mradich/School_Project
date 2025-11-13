@@ -1,7 +1,7 @@
 /* ================== Базовые стили страницы ================== */
 :global(body) {
   min-height: 100vh;
-  background: linear-gradient(135deg, #2b2b2b, #1f1f1f);
+  background: linear-gradient(135deg, #d9e9ff, #bcd4ff);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
   flex-direction: column;
@@ -21,20 +21,19 @@
 .form {
   width: 100%;
   max-width: 450px;
-  background: #333;
+  background: #ffffff;
   border-radius: 16px;
   padding: 30px 25px;
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 12px 25px rgba(0, 40, 90, 0.25);
   display: flex;
   flex-direction: column;
   gap: 25px;
-  color: #fff;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .form:hover {
   transform: translateY(-3px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 18px 35px rgba(0, 60, 120, 0.3);
 }
 
 /* ================== Контейнер инпутов ================== */
@@ -48,19 +47,19 @@
 .inputText {
   width: 100%;
   padding: 16px 12px;
-  background: #444;
-  border: 2px solid #666;
+  background: #f8fbff;
+  border: 2px solid #8aaade;
   border-radius: 10px;
-  color: #fff;
+  color: #1a2a4f;
   font-size: 16px;
   outline: none;
   transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
 }
 
 .inputText:focus {
-  border-color: #ff7f50;
-  background: #555;
-  box-shadow: 0 0 8px rgba(255, 127, 80, 0.5);
+  border-color: #2c6dfc;
+  background: #ffffff;
+  box-shadow: 0 0 10px rgba(44, 109, 252, 0.35);
 }
 
 /* ================== Плавающие лейблы ================== */
@@ -69,7 +68,7 @@
   top: 50%;
   left: 12px;
   transform: translateY(-50%);
-  color: #ccc;
+  color: #6c8fce;
   font-size: 14px;
   pointer-events: none;
   transition: 0.3s ease all;
@@ -80,29 +79,29 @@
   top: -10px;
   left: 10px;
   font-size: 12px;
-  color: #ff7f50;
-  background: #333;
+  color: #2c6dfc;
+  background: #ffffff;
   padding: 0 6px;
 }
 
 /* ================== Кнопки ================== */
 .button {
   padding: 16px;
-  background: #ff7f50;
+  background: linear-gradient(135deg, #4d8bff, #2c6dfc);
   color: #fff;
   font-size: 16px;
   font-weight: 600;
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  box-shadow: 0 6px 15px rgba(255, 127, 80, 0.4);
+  box-shadow: 0 6px 15px rgba(50, 110, 250, 0.35);
   transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
 }
 
 .button:hover {
-  background: #e76f3c;
+  background: linear-gradient(135deg, #3c79f8, #1f5ae0);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(255, 127, 80, 0.5);
+  box-shadow: 0 10px 22px rgba(40, 90, 220, 0.4);
 }
 
 /* ================== File input ================== */
@@ -122,7 +121,7 @@
 }
 
 .fileLabel {
-  background: #ff7f50;
+  background: linear-gradient(135deg, #4d8bff, #2c6dfc);
   color: #fff;
   padding: 12px 18px;
   border-radius: 8px;
@@ -134,13 +133,13 @@
 }
 
 .fileLabel:hover {
-  background: #e76f3c;
+  background: linear-gradient(135deg, #3c79f8, #1f5ae0);
   transform: translateY(-2px);
 }
 
 .fileName {
   font-size: 14px;
-  color: #bbb;
+  color: #5b7bb8;
   word-break: break-word;
 }
 
@@ -157,4 +156,42 @@
     font-size: 15px;
     padding: 14px;
   }
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1b3a78;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 15px;
+  text-align: center;
+  color: #5474a8;
+  margin-top: -10px;
+}
+
+.previewList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.previewItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f3f7ff;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #d2e0ff;
+}
+
+.previewImage {
+  width: 45px;
+  height: 45px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #aac6ff;
 }
