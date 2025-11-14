@@ -162,7 +162,7 @@ async def editRoomDetail(request: Request):
     data = await request.json()
     roomName = data.get("roomName")
     msg = data.get("msg")
-    print("MSG", msg)
+    #print("MSG", msg)
 
     with Session(engine) as session:
         stmt_room = select(Rooms).where(Rooms.name == roomName)
@@ -185,7 +185,7 @@ async def editRoomDetail(request: Request):
 @app.get("/fetchLevelData")
 def fetchLevelData(level: int):
     #DEBUG 
-    print("LEVEL", level)
+    #print("LEVEL", level)
 
     with Session(engine) as session:
         stmt_rooms = select(Rooms).where(Rooms.level == level)

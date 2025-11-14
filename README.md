@@ -1,8 +1,9 @@
 Classroom Manager 🏫
-
-![Adding_Room](/assets/Examples/Adding_Room.png)
-![dashboard](/assets/Examples/dashboard.png)
-![room](/assets/Examples/room.png)
+![Login](/assets/Examples/Login.png)
+![Adding_Room](/assets/Examples/Ebene.png)
+![dashboard](/assets/Examples/Ebene_Rooms.png)
+![room](/assets/Examples/Room.png)
+![Adding_Room](/assets/Examples/Adding_room.png)
 
 Classroom Manager is a sleek, intuitive web application designed to simplify the management of classrooms and learning spaces. Whether you're a teacher, school admin, or project manager, this tool lets you quickly organize classroom layouts, track furniture, and upload room photos for visual reference — all in one place.
 
@@ -37,17 +38,3 @@ Frontend: Next.js, React, TypeScript, CSS
 Backend: (Optional) Flask / Python
 
 Version Control: Git
-
-📌 Future Improvements
-
-Live image previews for uploaded room photos
-
-User authentication & personal dashboards
-
-Drag & drop classroom layout editor
-
-Export / PDF reports of classrooms and furniture
-
-⚡ Fun Fact
-
-Even though this started as a school project, the clean design, responsive layout, and TypeScript-first approach make it portfolio-ready. It’s a perfect example of combining practicality with modern web design.
