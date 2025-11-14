@@ -66,3 +66,37 @@
   color: #0070f3;
   opacity: 0.8;
 }
+
+.Level__Header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 12px 0;
+  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 0 0 12px 12px;
+
+  transition: all 0.3s ease;
+}
+
+.Level__Header span {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.Level:hover .Level__Header {
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.Level:hover .Level__Header span {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+

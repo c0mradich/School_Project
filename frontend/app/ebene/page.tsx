@@ -3,6 +3,7 @@ import styles from "../../css/levels.module.css"
 import { useRouter } from "next/navigation"
 
 export default function Levels() {
+  const arr = ["", "https://bbs-me.de/wp-content/themes/BBSME/src/dist/img/footer/footer-image.png", "https://christmann.info/wp-content/uploads/2021/11/bbs-me-abgerundet.png", "https://www.meyer-architekten.de/wp-content/uploads/10-Schule-BBSme-Hannover-wpcf_750x562.jpg"]
   const router = useRouter()
 
   const handleClick = (level: number) => {
@@ -13,6 +14,11 @@ export default function Levels() {
     <main className={styles.Main}>
       {[1, 2, 3].map((level) => (
         <div
+          style={{
+          background: `url(${arr[level]}) center center`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat"
+        }}
           key={level}
           className={styles.Level}
           onClick={() => handleClick(level)}
