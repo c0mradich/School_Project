@@ -35,7 +35,7 @@ app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 
 origins = [
     "http://localhost:3000",  # локальный фронт
-    "https://school-project-p8tq2kt8o-kiril-bazhans-projects.vercel.app"  # деплой фронта
+    "https://school-project-three-plum.vercel.app/"  # деплой фронта
 ]
 
 app.add_middleware(
