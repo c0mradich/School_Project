@@ -35,7 +35,7 @@ app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 
 origins = [
     "http://localhost:3000",  # фронт
-    "http://127.0.0.1:3000",
+    os.environ.get("FRONTEND_URL", "http://127.0.0.1:3000")
 ]
 
 app.add_middleware(
