@@ -34,17 +34,18 @@ app = FastAPI(lifespan=lifespan)
 app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 
 origins = [
-    "http://localhost:3000",  # фронт
-    os.environ.get("FRONTEND_URL", "http://127.0.0.1:3000")
+    "http://localhost:3000",  # локальный фронт
+    "https://school-project-p8tq2kt8o-kiril-bazhans-projects.vercel.app"  # деплой фронта
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,  # можно ["*"] для dev
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 @app.post("/addUser")
 def add_user(user: User):
