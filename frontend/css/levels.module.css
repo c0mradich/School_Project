@@ -100,7 +100,7 @@
   transform: translateY(-2px);
 }
 
-/* --- Mobile Optimization (максимально дружелюбно к смартфонам) --- */
+/* --- Mobile Optimization --- */
 @media (max-width: 768px) {
   .Main {
     flex-direction: column;
@@ -109,23 +109,20 @@
   }
 
   .Level {
-    flex: 1 1 100%;
-    margin: 0.5rem 0;
-    min-height: 40vh;
+    width: 100%;
+    margin: 0 0 1rem 0;   /* Отступы только снизу */
     padding: 1.5rem;
-  }
-
-  .Level__Header {
-    padding: 10px 0;
+    border-radius: 12px;
+    box-sizing: border-box;
   }
 
   .Level__Header span {
-    font-size: 1.3rem;
+    font-size: 1.35rem;
   }
 
   .Level__Content {
     font-size: 1rem;
-    margin-top: 1.5rem;
+    margin-top: 1.3rem;
   }
 
   .Level__Hint {
@@ -136,12 +133,12 @@
 @media (max-width: 480px) {
   .Level {
     padding: 1.2rem;
-    min-height: 35vh;
+    margin: 0 0 1rem 0;
+    width: 100%;        
   }
 
   .Level__Header span {
-    font-size: 1.15rem;
-    letter-spacing: 0.3px;
+    font-size: 1.2rem;
   }
 
   .Level__Content {
