@@ -100,3 +100,55 @@
   transform: translateY(-2px);
 }
 
+/* --- Mobile Optimization (максимально дружелюбно к смартфонам) --- */
+@media (max-width: 768px) {
+  .Main {
+    flex-direction: column;
+    padding: 1rem;
+    min-height: auto;
+  }
+
+  .Level {
+    flex: 1 1 100%;
+    margin: 0.5rem 0;
+    min-height: 40vh;
+    padding: 1.5rem;
+  }
+
+  .Level__Header {
+    padding: 10px 0;
+  }
+
+  .Level__Header span {
+    font-size: 1.3rem;
+  }
+
+  .Level__Content {
+    font-size: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .Level__Hint {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .Level {
+    padding: 1.2rem;
+    min-height: 35vh;
+  }
+
+  .Level__Header span {
+    font-size: 1.15rem;
+    letter-spacing: 0.3px;
+  }
+
+  .Level__Content {
+    font-size: 0.95rem;
+  }
+
+  .Level__Hint {
+    font-size: 0.8rem;
+  }
+}
