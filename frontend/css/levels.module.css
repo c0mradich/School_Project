@@ -1,84 +1,70 @@
+/* ---------------- Основной контейнер ---------------- */
+
 .Main {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-wrap: wrap;
-  min-height: 95vh;
+  width: 100%;
+  min-height: 100vh;
   padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
   background: linear-gradient(135deg, #eef2f3, #8e9eab);
 }
 
+
+/* ---------------- Сетка уровней ---------------- */
+
+.Levels {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* ← 3 карточки на ПК */
+  gap: 2rem;
+  
+  padding-bottom: 4rem;
+}
+
+
+/* ---------------- Карточка уровня ---------------- */
+
 .Level {
-  flex: 1 1 30%;
-  border-radius: 20px;
-  padding: 2rem;
-  margin: 1rem;
-  background: white;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-  transition: all 0.3s ease;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 60vh;
   position: relative;
+  height: 70vh;
+
+  border-radius: 20px;
   overflow: hidden;
-}
+  cursor: pointer;
 
-.Level::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  z-index: 0;
-}
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 
-.Level:hover::before {
-  opacity: 0.2;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .Level:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
 }
 
-.Level__Header {
-  font-size: 2.2em;
-  font-weight: 800;
-  text-align: center;
-  color: #222;
-  z-index: 1;
-}
 
-.Level__Content {
-  margin-top: 2rem;
-  text-align: center;
-  font-size: 1.1em;
-  color: #444;
-  z-index: 1;
-}
-
-.Level__Hint {
-  margin-top: 1rem;
-  font-size: 0.9em;
-  font-style: italic;
-  color: #0070f3;
-  opacity: 0.8;
-}
+/* ---------------- Хедер карточки ---------------- */
 
 .Level__Header {
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
   padding: 12px 0;
+
+  text-align: center;
+
   backdrop-filter: blur(6px);
   background: rgba(0, 0, 0, 0.35);
-  border-radius: 0 0 12px 12px;
 
-  transition: all 0.3s ease;
+  transition: background 0.3s ease;
 }
 
 .Level__Header span {
@@ -100,52 +86,30 @@
   transform: translateY(-2px);
 }
 
-/* --- Mobile Optimization --- */
+
+/* ---------------- Мобилка ---------------- */
+
 @media (max-width: 768px) {
-  .Main {
-    flex-direction: column;
-    padding: 1rem;
-    min-height: auto;
+  .Levels {
+    grid-template-columns: 1fr; /* ← строго 1 в колонку */
+    gap: 1.5rem;
   }
 
   .Level {
-    width: 100%;
-    margin: 0 0 1rem 0;   /* Отступы только снизу */
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-sizing: border-box;
+    height: 200px;
   }
 
   .Level__Header span {
-    font-size: 1.35rem;
-  }
-
-  .Level__Content {
-    font-size: 1rem;
-    margin-top: 1.3rem;
-  }
-
-  .Level__Hint {
-    font-size: 0.85rem;
+    font-size: 1.3rem;
   }
 }
 
 @media (max-width: 480px) {
   .Level {
-    padding: 1.2rem;
-    margin: 0 0 1rem 0;
-    width: 100%;        
+    height: 180px;
   }
 
   .Level__Header span {
-    font-size: 1.2rem;
-  }
-
-  .Level__Content {
-    font-size: 0.95rem;
-  }
-
-  .Level__Hint {
-    font-size: 0.8rem;
+    font-size: 1.15rem;
   }
 }

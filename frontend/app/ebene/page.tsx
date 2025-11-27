@@ -1,6 +1,7 @@
 'use client'
 import styles from "../../css/levels.module.css"
 import { useRouter } from "next/navigation"
+import SearchRoom from "./SearchRoom"
 
 export default function Levels() {
   const arr = ["", "https://bbs-me.de/wp-content/themes/BBSME/src/dist/img/footer/footer-image.png", "https://christmann.info/wp-content/uploads/2021/11/bbs-me-abgerundet.png", "https://www.meyer-architekten.de/wp-content/uploads/10-Schule-BBSme-Hannover-wpcf_750x562.jpg"]
@@ -12,6 +13,8 @@ export default function Levels() {
 
   return (
     <main className={styles.Main}>
+      <SearchRoom></SearchRoom>
+      <div className={styles.Levels}>
       {[1, 2, 3].map((level) => (
         <div
           style={{
@@ -28,6 +31,7 @@ export default function Levels() {
           </div>
         </div>
       ))}
+      </div>
     </main>
     
   )
