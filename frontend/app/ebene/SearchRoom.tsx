@@ -32,13 +32,15 @@ export default function SearchQuery() {
   useEffect(() => {
     async function checkRoom() {
       const result = await Proofname(room)
+      console.log(result)
 
       if (!result) {
         setRecommendedRoom(null)
         return
       }
 
-      if (result.status === "ok") {
+      if (result.status === "ok" && !result.error) {
+        console.log("success")
         setRecommendedRoom({
           id: result.room.id,
           name: result.room.name,
@@ -46,7 +48,7 @@ export default function SearchQuery() {
           tables: result.room.tables
         })
       } else {
-        setRecommendedRoom({ error: result.error })
+        setRecommendedRoom(null)
       }
     }
 
