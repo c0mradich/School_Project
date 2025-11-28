@@ -9,3 +9,4 @@ uvicorn
 psycopg[binary]
 dotenv
 psycopg2
+supabase

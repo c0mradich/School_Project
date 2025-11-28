@@ -7,7 +7,7 @@ from sqlmodel import Session, SQLModel, create_engine, select
 from contextlib import asynccontextmanager
 from passlib.context import CryptContext
 from dotenv import load_dotenv
-
+from supabase import create_client
 from classes import *
 from models import *
 
@@ -63,6 +63,11 @@ pwd_context = CryptContext(
 async def lifespan(app: FastAPI):
     SQLModel.metadata.create_all(engine)
     yield
+
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+
 
 app = FastAPI(lifespan=lifespan)
 
@@ -147,7 +152,7 @@ async def upload_file(
     username: str = Form(...),
     userId: str = Form(...)
 ):
-    # проверка пользователя через БД
+    # 1️ Проверка пользователя через БД
     with Session(engine) as session:
         stmt = select(Users).where(Users.id == int(userId))
         existing_user = session.exec(stmt).first()
@@ -155,18 +160,21 @@ async def upload_file(
         if not existing_user or existing_user.name != username:
             raise HTTPException(status_code=401, detail="Invalid user")
 
-    # сохраняем файл
-
-    file_ext = roomPhoto.filename.split(".")[-1]  # jpg, png и тп
+    # 2️ Создаём уникальное имя файла
+    file_ext = roomPhoto.filename.split(".")[-1]  # jpg, png и т.п.
     new_filename = f"{uuid.uuid4()}.{file_ext}"
 
+    # 3️ Загружаем файл в Supabase Storage
+    try:
+        contents = await roomPhoto.read()
+        supabase.storage.from_("uploads").upload(new_filename, contents)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Upload failed: {str(e)}")
 
-    file_location = os.path.join(UPLOAD_DIR, new_filename)
+    # 4️ Формируем public URL для доступа
+    file_url = f"{SUPABASE_URL}/storage/v1/object/public/uploads/{new_filename}"
 
-    with open(file_location, "wb") as f:
-        f.write(await roomPhoto.read())
-
-    return {"filename": new_filename}
+    return {"filename": new_filename, "url": file_url}
         
 
 @app.get("/dashboard")
