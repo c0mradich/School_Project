@@ -50,9 +50,6 @@ export default function Home() {
     });
 
     const data = await res.json();
-    console.log(data);
-
-    console.log({ klassname, amountOfTables, amountOfChairs, fileNames });
   };
 
 
@@ -135,7 +132,7 @@ export default function Home() {
       <div className={main.previewList}>
         {fileNames.map((name, i) => (
           <div key={i} className={main.previewItem}>
-            <img src={`${apiURL}/uploads/${name}`} alt="" className={main.previewImage}/>
+            <img src={`${name}`} alt="" className={main.previewImage}/>
             <span>{name}</span>
           </div>
         ))}
