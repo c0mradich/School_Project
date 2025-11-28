@@ -6,16 +6,48 @@ from fastapi.responses import JSONResponse
 from sqlmodel import Session, SQLModel, create_engine, select
 from contextlib import asynccontextmanager
 from passlib.context import CryptContext
+from dotenv import load_dotenv
+
 from classes import *
 from models import *
 
+# ===============================================================
+# Load ENV (Render injects DATABASE_URL here)
+# ===============================================================
 
-sqlite_url = "sqlite:///database.db"
-engine = create_engine(sqlite_url, echo=True)
+load_dotenv()
+
+raw_url = os.getenv("DATABASE_URL")
+
+if not raw_url:
+    raise ValueError("DATABASE_URL not found in environment variables")
+
+# Render gives postgres://, convert to postgresql+psycopg://
+if raw_url.startswith("postgres://"):
+    raw_url = raw_url.replace("postgres://", "postgresql+psycopg://", 1)
+
+POSTGRES_URL = raw_url
+
+# ===============================================================
+# Create Engine (Render requires SSL)
+# ===============================================================
+
+engine = create_engine(
+    POSTGRES_URL,
+    echo=True,
+    connect_args={"sslmode": "require"}
+)
+
+# ===============================================================
+# File Upload Directory
+# ===============================================================
 
 UPLOAD_DIR = "uploads"
-os.makedirs(UPLOAD_DIR, exist_ok=True)  # создаем папку, если нет
+os.makedirs(UPLOAD_DIR, exist_ok=True)
 
+# ===============================================================
+# Password Hasher
+# ===============================================================
 
 pwd_context = CryptContext(
     schemes=["bcrypt"],
@@ -23,6 +55,9 @@ pwd_context = CryptContext(
     bcrypt__rounds=12
 )
 
+# ===============================================================
+# FastAPI Lifespan — Create Tables on Startup
+# ===============================================================
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -31,11 +66,19 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+# ===============================================================
+# Static Files
+# ===============================================================
+
 app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 
+# ===============================================================
+# CORS CONFIG
+# ===============================================================
+
 origins = [
-    "http://localhost:3000",  # локальный фронт
-    "https://school-project-d34ds3c-teachbetter.vercel.app",  # деплой фронта
+    "http://localhost:3000",
+    "https://school-project-d34ds3c-teachbetter.vercel.app",
 ]
 
 app.add_middleware(
@@ -45,7 +88,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 @app.post("/addUser")
 def add_user(user: User):
