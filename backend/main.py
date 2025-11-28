@@ -66,6 +66,7 @@ async def lifespan(app: FastAPI):
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+MAX_FILE_SIZE = 5 * 1024 * 1024
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 
@@ -167,6 +168,8 @@ async def upload_file(
     # 3️ Загружаем файл в Supabase Storage
     try:
         contents = await roomPhoto.read()
+        if len(contents) > MAX_FILE_SIZE:
+            raise HTTPException(status_code=400, detail="File size exceeds 5 MB limit")
         supabase.storage.from_("uploads").upload(new_filename, contents)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Upload failed: {str(e)}")

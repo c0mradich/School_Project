@@ -167,7 +167,7 @@ const deleteFunc = async (id: number) => {
           {data.room.photo.map((p, i) => (
             <img
               key={i}
-              src={`${apiURL}/uploads/${p}`}
+              src={`${p}`}
               alt={`Room ${data.room.name} photo`}
             />
           ))}
