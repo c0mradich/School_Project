@@ -114,7 +114,7 @@ def login(user: User, response: Response):
         existing = session.exec(stmt).first()
 
         if not existing or not pwd_context.verify(user.password, existing.password):
-            raise HTTPException(status_code=401, detail="Неверный логин или пароль")
+            raise HTTPException(status_code=401, detail="Wrong username or password")
 
         return {"id": existing.id, "name": existing.name}
     

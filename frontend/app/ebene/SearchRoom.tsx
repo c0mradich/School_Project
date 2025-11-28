@@ -83,7 +83,7 @@ export default function SearchQuery() {
 
 
       {!recommendedRoom && room === "" && (
-        <p className={styles.Hint}>Введите название комнаты</p>
+        <p className={styles.Hint}>Enter the room name</p>
       )}
     </>
   )
