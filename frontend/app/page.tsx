@@ -68,7 +68,7 @@ const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
       method: "POST",
       body: formData,
     });
-
+    console.log(formData)
     if (!res.ok) {
       const err = await res.json();
       console.error("Upload error:", err);

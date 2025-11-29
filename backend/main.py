@@ -27,16 +27,13 @@ if raw_url.startswith("postgres://"):
     raw_url = raw_url.replace("postgres://", "postgresql+psycopg://", 1)
 
 POSTGRES_URL = raw_url
+BUCKET = os.getenv("SUPABASE_BUCKET")
 
 # ===============================================================
 # Create Engine (Render requires SSL)
 # ===============================================================
 
-engine = create_engine(
-    POSTGRES_URL,
-    echo=True,
-    connect_args={"sslmode": "require"}
-)
+engine = create_engine(POSTGRES_URL, echo=True, connect_args={"sslmode": "require"})
 
 # ===============================================================
 # File Upload Directory
@@ -68,7 +65,7 @@ SUPABASE_URL = os.getenv("SUPABASE_URL")
 MAX_FILE_SIZE = 5 * 1024 * 1024
 supabase = create_client(
     os.getenv("SUPABASE_URL"),
-    os.getenv("SUPABASE_SERVICE_KEY")
+    os.getenv("SUPABASE_SERVICE_KEY"),
 )
 
 app = FastAPI(lifespan=lifespan)
