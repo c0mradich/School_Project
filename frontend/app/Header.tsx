@@ -1,17 +1,15 @@
-"use client";
-import { useRouter } from "next/navigation";
+'use client';
+import { useUser } from './context/UserContext';
+import { useRouter } from 'next/navigation';
 
 export default function Header() {
+  const { user } = useUser();
   const router = useRouter();
 
   return (
-    <header style={{ padding: "1rem" }}>
-      <span
-        style={{ cursor: "pointer", fontWeight: 700, fontSize: "1.2rem" }}
-        onClick={() => router.push("/ebene")}
-      >
-        TeachBetter
-      </span>
+    <header>
+      <span onClick={() => router.push("/ebene")}>TeachBetter</span>
+      <span className="username">{user?.name || "guest"}</span>
     </header>
   );
 }

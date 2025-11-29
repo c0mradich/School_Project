@@ -73,7 +73,6 @@ function SignIn() {
       sessionStorage.setItem("user_id",result.id)
       sessionStorage.setItem("user_name", result.name)
     }
-    console.log("RESULT: ", result)
   };
 
   return (

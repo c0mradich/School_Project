@@ -30,8 +30,16 @@ header{
   padding: 15px;
   font-family:'Arial';
   font-weight: 700;  
+  display: flex;
 }
 header span{
   padding-left: 25px;
   color: #ededed;
+}
+
+header span:hover{
+  cursor: pointer;
+}
+header span.username{
+  margin-left: auto;
 }
