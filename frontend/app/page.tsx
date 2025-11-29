@@ -53,25 +53,37 @@ export default function Home() {
   };
 
 
-  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
 
-    const formData = new FormData();
-    formData.append("roomPhoto", file);
-    formData.append("username", userName);
-    formData.append("userId", userId);
-    console.log(formData)
+  const formData = new FormData();
+  formData.append("roomPhoto", file);
+  formData.append("username", userName);
+  formData.append("userId", userId);
+  formData.append("roomName", klassname); // вот это ключевой момент
 
+  try {
     const res = await fetch(`${apiURL}/file`, {
       method: "POST",
       body: formData,
     });
 
+    if (!res.ok) {
+      const err = await res.json();
+      console.error("Upload error:", err);
+      return;
+    }
+
     const data = await res.json();
-    setFileNames(prev => [...prev, data.filename]);
-    console.log(data)
-  };
+    setFileNames(prev => [...prev, data.url]); // сразу пушим публичный URL
+    console.log("Upload success:", data);
+  } catch (err) {
+    console.error("Fetch failed:", err);
+  }
+};
+
+
 
 
   return (
@@ -130,10 +142,10 @@ export default function Home() {
       </label>
 
       <div className={main.previewList}>
-        {fileNames.map((name, i) => (
+        {fileNames.map((url, i) => (
           <div key={i} className={main.previewItem}>
-            <img src={`${name}`} alt="" className={main.previewImage}/>
-            <span>{name}</span>
+            <img src={url} alt="" className={main.previewImage}/>
+            <span>{url}</span>
           </div>
         ))}
       </div>

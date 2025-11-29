@@ -146,29 +146,30 @@ def create_room(room: Room):
 async def upload_file(
     roomPhoto: UploadFile = File(...),
     username: str = Form(...),
-    userId: str = Form(...)
+    userId: str = Form(...),
+    roomName: str = Form(...)  # чтобы знать, в какую комнату грузим
 ):
-    # 1. Проверка юзера
+    # 1️⃣ Проверка юзера
     with Session(engine) as session:
         stmt = select(Users).where(Users.id == int(userId))
         existing_user = session.exec(stmt).first()
-
         if not existing_user or existing_user.name != username:
             raise HTTPException(status_code=401, detail="Invalid user")
 
-    # 2. Проверяем размер
+    # 2️⃣ Проверка размера
     contents = await roomPhoto.read()
-
     if len(contents) > MAX_FILE_SIZE:
         raise HTTPException(status_code=400, detail="File size exceeds 5 MB limit")
 
-    # 3. Генерируем имя
+    # 3️⃣ Генерация уникального имени
     file_ext = roomPhoto.filename.split(".")[-1]
     new_filename = f"{uuid.uuid4()}.{file_ext}"
 
-    # 4. Грузим в Supabase
+    BUCKET_NAME = os.getenv("SUPABASE_BUCKET")  # берём имя бакета из env
+
+    # 4️⃣ Загрузка в Supabase
     try:
-        supabase.storage.from_("uploads").upload(
+        supabase.storage.from_(BUCKET_NAME).upload(
             path=new_filename,
             file=contents,
             file_options={"content-type": roomPhoto.content_type},
@@ -176,10 +177,31 @@ async def upload_file(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Upload failed: {str(e)}")
 
-    # 5. Генерируем public URL
-    public_url = supabase.storage.from_("uploads").get_public_url(new_filename)
+    # 5️⃣ Генерация публичного URL
+    public_url = supabase.storage.from_(BUCKET_NAME).get_public_url(new_filename)
 
-    return {"filename": new_filename, "url": public_url}
+    # 6️⃣ Сохраняем URL в БД (массив JSON)
+    with Session(engine) as session:
+        stmt = select(Rooms).where(Rooms.name == roomName)
+        room = session.exec(stmt).first()
+        if not room:
+            raise HTTPException(status_code=404, detail="Room not found")
+
+        try:
+            photos = json.loads(room.photo) if room.photo else []
+        except:
+            photos = []
+
+        photos.append(public_url)
+        room.photo = json.dumps(photos)
+
+        session.add(room)
+        session.commit()
+        session.refresh(room)
+
+    return {"filename": new_filename, "url": public_url, "photos": photos}
+
+
 
         
 
