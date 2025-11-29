@@ -123,7 +123,7 @@ def create_room(room: Room):
         stmt = select(Rooms).where(Rooms.name == room.name)
         existing = session.exec(stmt).first()
         if existing:
-            raise HTTPException(status_code=400, detail="Комната уже существует")
+            raise HTTPException(status_code=400, detail="Room exists allready")
 
         db_room = Rooms(
             name=room.name,
