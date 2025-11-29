@@ -42,8 +42,8 @@ engine = create_engine(
 # File Upload Directory
 # ===============================================================
 
-UPLOAD_DIR = "uploads"
-os.makedirs(UPLOAD_DIR, exist_ok=True)
+# UPLOAD_DIR = "uploads"
+# os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 # ===============================================================
 # Password Hasher
@@ -65,18 +65,13 @@ async def lifespan(app: FastAPI):
     yield
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 MAX_FILE_SIZE = 5 * 1024 * 1024
-supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
-
+supabase = create_client(
+    os.getenv("SUPABASE_URL"),
+    os.getenv("SUPABASE_SERVICE_KEY")
+)
 
 app = FastAPI(lifespan=lifespan)
-
-# ===============================================================
-# Static Files
-# ===============================================================
-
-app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 
 # ===============================================================
 # CORS CONFIG
@@ -153,7 +148,7 @@ async def upload_file(
     username: str = Form(...),
     userId: str = Form(...)
 ):
-    # 1️ Проверка пользователя через БД
+    # 1. Проверка юзера
     with Session(engine) as session:
         stmt = select(Users).where(Users.id == int(userId))
         existing_user = session.exec(stmt).first()
@@ -161,23 +156,31 @@ async def upload_file(
         if not existing_user or existing_user.name != username:
             raise HTTPException(status_code=401, detail="Invalid user")
 
-    # 2️ Создаём уникальное имя файла
-    file_ext = roomPhoto.filename.split(".")[-1]  # jpg, png и т.п.
+    # 2. Проверяем размер
+    contents = await roomPhoto.read()
+
+    if len(contents) > MAX_FILE_SIZE:
+        raise HTTPException(status_code=400, detail="File size exceeds 5 MB limit")
+
+    # 3. Генерируем имя
+    file_ext = roomPhoto.filename.split(".")[-1]
     new_filename = f"{uuid.uuid4()}.{file_ext}"
 
-    # 3️ Загружаем файл в Supabase Storage
+    # 4. Грузим в Supabase
     try:
-        contents = await roomPhoto.read()
-        if len(contents) > MAX_FILE_SIZE:
-            raise HTTPException(status_code=400, detail="File size exceeds 5 MB limit")
-        supabase.storage.from_("uploads").upload(new_filename, contents)
+        supabase.storage.from_("uploads").upload(
+            path=new_filename,
+            file=contents,
+            file_options={"content-type": roomPhoto.content_type},
+        )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Upload failed: {str(e)}")
 
-    # 4️ Формируем public URL для доступа
-    file_url = f"{SUPABASE_URL}/storage/v1/object/public/uploads/{new_filename}"
+    # 5. Генерируем public URL
+    public_url = supabase.storage.from_("uploads").get_public_url(new_filename)
 
-    return {"filename": new_filename, "url": file_url}
+    return {"filename": new_filename, "url": public_url}
+
         
 
 @app.get("/dashboard")
