@@ -143,8 +143,7 @@ def create_room(room: Room):
 async def upload_file(
     roomPhoto: UploadFile = File(...),
     username: str = Form(...),
-    userId: str = Form(...),
-    roomName: str = Form(...)  # чтобы знать, в какую комнату грузим
+    userId: str = Form(...)
 ):
     # 1️⃣ Проверка юзера
     with Session(engine) as session:
@@ -162,11 +161,9 @@ async def upload_file(
     file_ext = roomPhoto.filename.split(".")[-1]
     new_filename = f"{uuid.uuid4()}.{file_ext}"
 
-    BUCKET_NAME = os.getenv("SUPABASE_BUCKET")  # берём имя бакета из env
-
     # 4️⃣ Загрузка в Supabase
     try:
-        supabase.storage.from_(BUCKET_NAME).upload(
+        supabase.storage.from_(BUCKET).upload(
             path=new_filename,
             file=contents,
             file_options={"content-type": roomPhoto.content_type},
@@ -174,33 +171,11 @@ async def upload_file(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Upload failed: {str(e)}")
 
-    # 5️⃣ Генерация публичного URL
-    public_url = supabase.storage.from_(BUCKET_NAME).get_public_url(new_filename)
+    # 5️⃣ Публичный URL
+    public_url = supabase.storage.from_(BUCKET).get_public_url(new_filename)
 
-    # 6️⃣ Сохраняем URL в БД (массив JSON)
-    with Session(engine) as session:
-        stmt = select(Rooms).where(Rooms.name == roomName)
-        room = session.exec(stmt).first()
-        if not room:
-            raise HTTPException(status_code=404, detail="Room not found")
-
-        try:
-            photos = json.loads(room.photo) if room.photo else []
-        except:
-            photos = []
-
-        photos.append(public_url)
-        room.photo = json.dumps(photos)
-
-        session.add(room)
-        session.commit()
-        session.refresh(room)
-
-    return {"filename": new_filename, "url": public_url, "photos": photos}
-
-
-
-        
+    # 🔹 Тут больше **не ищем комнату**, просто возвращаем URL
+    return {"filename": new_filename, "url": public_url}
 
 @app.get("/dashboard")
 def Dashboard():
