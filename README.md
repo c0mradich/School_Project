@@ -7,17 +7,17 @@ Classroom Manager 🏫
 
 # 📚 Classroom Manager
 
-**Classroom Manager** is a modern, intuitive web application designed to simplify the management of classrooms and learning spaces.  
-It helps teachers, school administrators, and project managers efficiently organize rooms, track furniture, and store visual references — all in one centralized system.
+**Classroom Manager** is a modern, full-stack web application designed to simplify classroom and learning space management.  
+It allows teachers, school administrators, and managers to organize rooms, manage furniture, and store visual references in one centralized system.
 
 ---
 
 ## ✨ Overview
 
-Managing classrooms with spreadsheets and notes is inefficient and error-prone.  
-Classroom Manager digitizes this process by providing a clean, responsive interface and a scalable full-stack architecture built for real-world usage.
+Traditional classroom management using spreadsheets and notes is inefficient and hard to scale.  
+Classroom Manager solves this problem by providing a clean UI, cloud-based storage, and a production-ready backend architecture.
 
-The application focuses on usability, performance, and clean architecture.
+The project focuses on **clarity, scalability, and real-world usability**.
 
 ---
 
@@ -27,7 +27,7 @@ The application focuses on usability, performance, and clean architecture.
   Create and manage classrooms with custom names, number of tables, and chairs.
 
 - 🖼 **Photo & File Upload**  
-  Upload and attach room photos and files for visual layout reference.
+  Upload and store room photos and files for visual layout reference.
 
 - 📱 **Responsive Design**  
   Fully optimized for desktop, tablet, and mobile devices.
@@ -35,8 +35,8 @@ The application focuses on usability, performance, and clean architecture.
 - 🎨 **Modern UI / UX**  
   Minimalistic orange-grey theme with smooth animations and interactive forms.
 
-- ⚡ **Scalable Architecture**  
-  Designed for easy extension and future features.
+- ⚡ **Scalable Full-Stack Architecture**  
+  Built to support future features and real-world usage.
 
 ---
 
@@ -44,13 +44,14 @@ The application focuses on usability, performance, and clean architecture.
 
 This project demonstrates practical **full-stack development skills**, including:
 
-- React Hooks for state and form handling (`useState`, `useRef`)
-- File upload handling with live feedback
-- Cloud-based storage integration
-- Clean separation of frontend, backend, and storage layers
-- Production-ready deployment workflow
+- Interactive UI with React Hooks (`useState`, `useRef`)
+- REST API design with FastAPI
+- File upload handling with cloud storage
+- Relational database modeling with SQLAlchemy
+- Clean separation between frontend, backend, database, and storage
+- Cloud deployment workflow (Vercel + Render + Supabase)
 
-It is built not as a demo, but as a foundation for a real product.
+This is not a demo project — it is designed as a solid base for a real product.
 
 ---
 
@@ -64,17 +65,23 @@ It is built not as a demo, but as a foundation for a real product.
 - Deployment: **Vercel**
 
 ### Backend
-- Hosted on **Render**
-- **PostgreSQL** as the main database
-- REST API architecture (ready for expansion)
+- **Python**
+- **FastAPI**
+- **Uvicorn**
+- **SQLAlchemy**
+- RESTful API
+- Deployment: **Render**
+
+### Database
+- **PostgreSQL**
 
 ### Storage
 - **Supabase**
-- Secure storage for photos and files
+- Cloud storage for photos and files
 
 ### Tools
-- **Git** for version control
-- Modular project structure for team development
+- **Git** — version control
+- Modular and scalable project structure
 
 ---
 
