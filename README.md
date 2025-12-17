@@ -5,36 +5,77 @@ Classroom Manager 🏫
 ![Room](/assets/Examples/room.png)
 ![Adding_room](/assets/Examples/Adding_Room.png)
 
-Classroom Manager is a sleek, intuitive web application designed to simplify the management of classrooms and learning spaces. Whether you're a teacher, school admin, or project manager, this tool lets you quickly organize classroom layouts, track furniture, and upload room photos for visual reference — all in one place.
+# 📚 Classroom Manager
 
-🚀 Features
+**Classroom Manager** is a modern, intuitive web application designed to simplify the management of classrooms and learning spaces.  
+It helps teachers, school administrators, and project managers efficiently organize rooms, track furniture, and store visual references — all in one centralized system.
 
-Add & Manage Rooms – Create classrooms with custom names, number of tables, and chairs.
+---
 
-Photo Upload – Attach images for each room to visualize the layout.
+## ✨ Overview
 
-Responsive Design – Works perfectly on desktop, tablet, and mobile devices.
+Managing classrooms with spreadsheets and notes is inefficient and error-prone.  
+Classroom Manager digitizes this process by providing a clean, responsive interface and a scalable full-stack architecture built for real-world usage.
 
-Modern UI – Minimalistic orange-grey theme with smooth animations and interactive forms.
+The application focuses on usability, performance, and clean architecture.
 
-TypeScript + React + Next.js – Fully typed and scalable frontend architecture.
+---
 
-💡 Why This Project?
+## 🚀 Features
 
-This project is a practical showcase of full-stack development skills, combining:
+- 🏫 **Room Management**  
+  Create and manage classrooms with custom names, number of tables, and chairs.
 
-Frontend interactivity with React Hooks (useState, useRef)
+- 🖼 **Photo & File Upload**  
+  Upload and attach room photos and files for visual layout reference.
 
-File management with live feedback (filename display, preview potential)
+- 📱 **Responsive Design**  
+  Fully optimized for desktop, tablet, and mobile devices.
 
-Modern CSS techniques: floating labels, adaptive layouts, shadows, and hover effects
+- 🎨 **Modern UI / UX**  
+  Minimalistic orange-grey theme with smooth animations and interactive forms.
 
-Scalable project structure for real-world web apps
+- ⚡ **Scalable Architecture**  
+  Designed for easy extension and future features.
 
-🛠 Tech Stack
+---
 
-Frontend: Next.js, React, TypeScript, CSS
+## 🧠 Why This Project?
 
-Backend: (Optional) Flask / Python
+This project demonstrates practical **full-stack development skills**, including:
 
-Version Control: Git
+- React Hooks for state and form handling (`useState`, `useRef`)
+- File upload handling with live feedback
+- Cloud-based storage integration
+- Clean separation of frontend, backend, and storage layers
+- Production-ready deployment workflow
+
+It is built not as a demo, but as a foundation for a real product.
+
+---
+
+## 🛠 Tech Stack
+
+### Frontend
+- **Next.js**
+- **React**
+- **TypeScript**
+- **Modern CSS**
+- Deployment: **Vercel**
+
+### Backend
+- Hosted on **Render**
+- **PostgreSQL** as the main database
+- REST API architecture (ready for expansion)
+
+### Storage
+- **Supabase**
+- Secure storage for photos and files
+
+### Tools
+- **Git** for version control
+- Modular project structure for team development
+
+---
+
+## 📦 Architecture
